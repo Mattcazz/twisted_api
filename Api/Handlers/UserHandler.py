@@ -20,8 +20,7 @@ class UserHandler(BaseHandler):
 
         user_data = self.userSchema.dump(user) 
 
-        request.setResponseCode(200)
-        return json.dumps(user_data).encode("utf-8")
+        return self.write_json_response(request, user_data, 200)
     
     def create_user(self, request : Request):
         request.setHeader('Content-Type', 'application/json')
