@@ -1,3 +1,4 @@
+from marshmallow import ValidationError
 from repositories.UserRepo import UserRepo
 from Api.Schemas.UserSchema import UserSchema
 import json
@@ -29,7 +30,10 @@ class UserHandler(BaseHandler):
             user = self.parse_json_request(request, self.userSchema)
         except ValueError as e:
             return self.write_error(request, str(e), 400)
-        
+        except ValidationError as e: 
+            return self.write_error(request, str(e), 404)
+
+
         (err, err_str, user) = self.repo.create_user(user)
 
         if err:
